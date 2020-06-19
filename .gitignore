@@ -33,6 +33,8 @@
 *.patch
 *.gcno
 *.ll
+*.rej
+*.orig
 modules.builtin
 Module.symvers
 *.dwo
