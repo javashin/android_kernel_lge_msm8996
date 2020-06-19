@@ -550,7 +550,8 @@ config ZSWAP
 	depends on FRONTSWAP && CRYPTO=y
 	select CRYPTO_LZ4
 	select ZPOOL
-	default n
+    select BTREE
+	default y
 	help
 	  A lightweight compressed cache for swap pages.  It takes
 	  pages that are in the process of being swapped out and attempts to
@@ -567,7 +568,7 @@ config ZSWAP
 
 config ZPOOL
 	tristate "Common API for compressed memory storage"
-	default n
+	default y
 	help
 	  Compressed memory storage API.  This allows using either zbud or
 	  zsmalloc.
@@ -585,7 +586,7 @@ config ZBUD
 config ZSMALLOC
 	tristate "Memory allocator for compressed pages"
 	depends on MMU
-	default n
+	default y
 	help
 	  zsmalloc is a slab-based memory allocator designed to store
 	  compressed RAM pages.  zsmalloc uses virtual memory mapping
