@@ -69,7 +69,7 @@ static char *check[] = {
 	"cast6", "arc4", "michael_mic", "deflate", "crc32c", "tea", "xtea",
 	"khazad", "wp512", "wp384", "wp256", "tnepres", "xeta",  "fcrypt",
 	"camellia", "seed", "salsa20", "rmd128", "rmd160", "rmd256", "rmd320",
-	"lzo", "cts", "zlib", NULL
+	"lzo", "cts", "zlib", "sb256", "sb512", NULL
 };
 
 static int test_cipher_jiffies(struct blkcipher_desc *desc, int enc,
@@ -1454,6 +1454,14 @@ static int do_test(int m)
 		ret += tcrypt_test("crct10dif");
 		break;
 
+	case 53:
+		ret += tcrypt_test("sb256");
+		break;
+
+	case 54:
+		ret += tcrypt_test("sb512");
+		break;
+
 	case 100:
 		ret += tcrypt_test("hmac(md5)");
 		break;
@@ -1834,6 +1842,15 @@ static int do_test(int m)
 		test_hash_speed("crct10dif", sec, generic_hash_speed_template);
 		if (mode > 300 && mode < 400) break;
 
+	case 327:
+		test_hash_speed("sb256", sec, generic_hash_speed_template);
+		if (mode > 300 && mode < 400) break;
+		/* fall through */
+	case 328:
+		test_hash_speed("sb512", sec, generic_hash_speed_template);
+		if (mode > 300 && mode < 400) break;
+		/* fall through */
+
 	case 399:
 		break;
 
@@ -1907,6 +1924,16 @@ static int do_test(int m)
 	case 417:
 		test_ahash_speed("rmd320", sec, generic_hash_speed_template);
 		if (mode > 400 && mode < 500) break;
+ 	case 426:
+		test_mb_ahash_speed("sb256", sec, generic_hash_speed_template,
+ 				    num_mb);
+ 		if (mode > 400 && mode < 500) break;
+ 		/* fall through */
+    case 427:
+		test_mb_ahash_speed("sb512", sec, generic_hash_speed_template,
+				    num_mb);
+		if (mode > 400 && mode < 500) break;
+		/* fall through */
 
 	case 499:
 		break;
