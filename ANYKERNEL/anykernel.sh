@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string="Custo-Kernal-JavaShin-X-H872 Kernel For LG G6 T-Mobile"
+kernel.string="Custo-Kernal-JavaShin-X-H872 Kernel For LG G6 T-Mobile R2"
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -63,12 +63,12 @@ ui_print " "
 ui_print "Device: LG G6 (H872)"
 ui_print "Kernel Name: Custo-Kernal-JavaShin-X"
 ui_print "Build User: root"
-ui_print "KVer: 3.18.140-jsX-perf_r1 JavaShin-X-H872 SMP PREEMPT aarch64"
-ui_print "June 2020 "
+ui_print "KVer: 3.18.140-jsX-perf_r2 JavaShin-X-H872 SMP PREEMPT aarch64"
+ui_print "Monday June 22 2020 "
 ui_print "Toolchain Info:"
 ui_print "Android (6573524 based on r383902b) clang version 11.0.2 (https://android.googlesource.com/toolchain/llvm-project b397f81060ce6d701042b782172ed13bee898b79)"
-
-ui_print " "
+ui_print "Cross 64bits/aarch64-linux-gnu-gcc version 10.1.0 (Debian 10.1.0-3) "
+ui_print "CFLAGS/KFLAGS=-O3 -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -pipe"
 
 write_boot;
 ## end install
