@@ -1,8 +1,25 @@
 VERSION = 3
 PATCHLEVEL = 18
 SUBLEVEL = 140
-EXTRAVERSION = -jsX-perf_r2
+EXTRAVERSION = -jsX-perf_r3
 NAME = Diseased Newt
+
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS   += -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo
+endif
+
+ifdef CONFIG_POLLY_CLANG
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS   += -mllvm -polly \
+                   -mllvm -polly-run-dce \
+                   -mllvm -polly-run-inliner \
+                   -mllvm -polly-opt-fusion=max \
+                   -mllvm -polly-ast-use-context \
+                   -mllvm -polly-detect-keep-going \
+                   -mllvm -polly-vectorizer=stripmine \
+                   -mllvm -polly-invariant-load-hoisting
+endif
+endif
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
@@ -296,8 +313,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
-HOSTCXXFLAGS = -O2
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -std=gnu89
+HOSTCXXFLAGS = -O3
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -384,12 +401,12 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+KBUILD_CFLAGS   := -O3 -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-		   -std=gnu89 \
-		   -mcpu=cortex-a57 -mtune=cortex-a57 -fdiagnostics-color=always
+		   -std=gnu89 -fno-stack-protector \
+		   -mcpu=kryo -mtune=kryo -fdiagnostics-color=always -pipe
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -647,7 +664,7 @@ else
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= -O3
 else
-KBUILD_CFLAGS	+= -O2
+KBUILD_CFLAGS	+= -O3
 endif
 endif
 

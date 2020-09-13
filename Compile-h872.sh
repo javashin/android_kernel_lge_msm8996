@@ -11,9 +11,6 @@ echo "Set TurboBoost For Faster Android Kernal Compilation"
 #printf "1"  > /sys/devices/system/cpu/cpufreq/boost
 
 
-
-
-
 echo "##################################################"
 echo "##################################################"
 echo "##################################################"
@@ -21,10 +18,13 @@ echo "##################################################"
 echo "Preparing"
 sleep 1
 
-rm -rf OUT
-export ARCH=arm64  
-export SUBARCH=arm 
-mkdir OUT 
+umount /OUT
+rm -rf /OUT
+export ARCH=arm64
+export SUBARCH=arm
+mkdir /OUT
+mount /OUT
+
 
 echo "##################################################"
 echo "##################################################"
@@ -34,11 +34,11 @@ echo "Configuring"
 sleep 1
 
 #PATH="/mnt/android-B/clang-master/bin:/mnt/android-B/aarch64-linux-android-4.9/bin:${PATH}" 
-PATH="/COMPILING/clang-master/bin:${PATH}" make O=OUT ARCH=arm64 SUBARCH=arm CC=clang DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_BUILD_ARM64_DT_OVERLAY=y CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y jsx_custokernal_h872_defconfig
+PATH="/COMPILING/clang-master/bin:${PATH}" make O=/OUT ARCH=arm64 SUBARCH=arm CC=clang LD=/usr/bin/aarch64-linux-gnu-ld.bfd DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_BUILD_ARM64_DT_OVERLAY=y CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y jsx_custokernal_h872_defconfig
 #PATH="/mnt/android-B/clang-master/bin:/mnt/android-B/aarch64-linux-android-4.9/bin:${PATH}" 
-PATH="/COMPILING/clang-master/bin:${PATH}" make O=OUT ARCH=arm64 SUBARCH=arm CC=clang DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_BUILD_ARM64_DT_OVERLAY=y CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y oldconfig
+PATH="/COMPILING/clang-master/bin:${PATH}" make O=/OUT ARCH=arm64 SUBARCH=arm CC=clang LD=/usr/bin/aarch64-linux-gnu-ld.bfd DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_BUILD_ARM64_DT_OVERLAY=y CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y oldconfig
 #PATH="/mnt/android-B/clang-master/bin:/mnt/android-B/aarch64-linux-android-4.9/bin:${PATH}" 
-PATH="/COMPILING/clang-master/bin:${PATH}" make O=OUT ARCH=arm64 SUBARCH=arm CC=clang DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_BUILD_ARM64_DT_OVERLAY=y CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y nconfig
+PATH="/COMPILING/clang-master/bin:${PATH}" make O=/OUT ARCH=arm64 SUBARCH=arm CC=clang LD=/usr/bin/aarch64-linux-gnu-ld.bfd DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_BUILD_ARM64_DT_OVERLAY=y CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y nconfig
 
 
 
@@ -54,11 +54,12 @@ sleep 1
 #-Wno-parentheses -Wno-incompatible-pointer-types -fno-stack-protector \
 #-fno-merge-constants -Wno-ignored-optimization-argument -Wno-error \
 #-Wno-tautological-constant-out-of-range-compare -Wno-xor-used-as-pow -Wno-fortify-source -O3 -fno-stack-protector"
+#export PATH="/COMPILING/clang-master/bin:${PATH}"
 
-KBUILD_CFLAGS+="-mcpu=kyro -mcpu=cortex-a72.cortex-a53 -march=armv8-a+fp+simd+crc+crypto -march=armv8-a+fp+simd+crc+crypto"
+#KBUILD_CFLAGS+="-mcpu=kyro -mcpu=cortex-a72.cortex-a53 -march=armv8-a+fp+simd+crc+crypto -march=armv8-a+fp+simd+crc+crypto"
 
 #PATH="/mnt/android-B/clang-master/bin:/mnt/android-B/aarch64-linux-android-4.9/bin:${PATH}" 
-PATH="/COMPILING/clang-master/bin:${PATH}" make -j$(nproc --all) O=OUT ARCH=arm64 SUBARCH=arm CC=clang DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_BUILD_ARM64_DT_OVERLAY=y KCFLAGS+="-Wno-error -O3 -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto"  CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_DEBUG_SECTION_MISMATCH=y V=0
+PATH="/COMPILING/clang-master/bin:${PATH}" make -j$(nproc --all) O=/OUT ARCH=arm64 SUBARCH=arm CC=clang LD=/usr/bin/aarch64-linux-gnu-ld.bfd DTC_EXT=dtc SELINUX_DEFCONFIG=selinux_defconfig CONFIG_BUILD_ARM64_DT_OVERLAY=y KCFLAGS+="-Wno-error -O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo -pipe"  CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CONFIG_NO_ERROR_ON_MISMATCH=y CONFIG_ADRENO_IDLER=y CONFIG_STATE_NOTIFIER=y CONFIG_DYNAMIC_FSYNC=y CONFIG_DEBUG_SECTION_MISMATCH=y V=0
 
 echo "##################################################"
 echo "##################################################"
@@ -77,9 +78,9 @@ cp OUT/arch/arm64/boot/Image.gz-dtb ANYKERNEL/
 cd ANYKERNEL/
 ls -lash Image.gz-dtb
 rm *.zip
-zip -r9 H872-jsX-CustoKernal-22-JUNE-2020-R1.zip * -x .git README.md *placeholder
-ls -lash H872-jsX-CustoKernal-22-JUNE-2020-R1.zip
-cp H872-jsX-CustoKernal-22-JUNE-2020-R1.zip /home/
+zip -r9 H872-jsX-CustoKernal-08-JULY-2020-R3.zip * -x .git README.md *placeholder
+ls -lash H872-jsX-CustoKernal-08-JULY-2020-R3.zip
+cp H872-jsX-CustoKernal-08-JULY-2020-R3.zip /home/
 #@javashin/Desktop/
 #adb push UPDATE-H872-AnyKernel3-24-APRIL-2020.zip /sdcard
 
