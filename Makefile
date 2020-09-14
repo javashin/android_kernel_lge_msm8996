@@ -1,7 +1,7 @@
 VERSION = 3
 PATCHLEVEL = 18
 SUBLEVEL = 140
-EXTRAVERSION = -jsX-perf_r3
+EXTRAVERSION = -BvD_rV1
 NAME = Diseased Newt
 
 ifeq ($(cc-name),clang)

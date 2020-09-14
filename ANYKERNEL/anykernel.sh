@@ -32,8 +32,8 @@ ramdisk_compression=auto;
 
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
-set_perm_recursive 0 0 755 644 $ramdisk/*;
-set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
+#set_perm_recursive 0 0 755 644 $ramdisk/*;
+#set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
 
 
 ## AnyKernel install
@@ -59,16 +59,16 @@ dump_boot;
 
 # end ramdisk changes
 
-ui_print " "
-ui_print "Device: LG G6 (H872)"
-ui_print "Kernel Name: Custo-Kernal-JavaShin-X"
-ui_print "Build User: root"
-ui_print "KVer: 3.18.140-jsX-perf_r3 JavaShin-X-H872 SMP PREEMPT aarch64"
-ui_print "Wed July 08 2020 "
-ui_print "Toolchain Info:"
-ui_print "PROTON CLANG 11.0.0 LTO+POLLY+PGO Optimized."
-ui_print "Cross 64bits/aarch64-linux-gnu-gcc version 10.1.0 (Debian 10.1.0-3) "
-ui_print "CFLAGS/KFLAGS=-O3 -mllvm -polly -fno-stack-protector -mcpu=kryo -mtune=kryo -march=armv8-a+fp+simd+crc+crypto -pipe"
+#ui_print " "
+#ui_print "Device: LG G6 (H872)"
+#ui_print "Kernel Name: Custo-Kernal-JavaShin-X"
+#ui_print "Build User: root"
+#ui_print "KVer: 3.18.140-jsX-perf_r3 JavaShin-X-H872 SMP PREEMPT aarch64"
+#ui_print "Wed July 08 2020 "
+#ui_print "Toolchain Info:"
+#ui_print "PROTON CLANG 11.0.0 LTO+POLLY+PGO Optimized."
+#ui_print "Cross 64bits/aarch64-linux-gnu-gcc version 10.1.0 (Debian 10.1.0-3) "
+#ui_print "CFLAGS/KFLAGS=-O3 -mllvm -polly -fno-stack-protector -mcpu=kryo -mtune=kryo -march=armv8-a+fp+simd+crc+crypto -pipe"
 
 write_boot;
 ## end install
